@@ -1,5 +1,3 @@
-
-import javax.swing.*;
 import java.util.Random;
 import java.util.Scanner;
 public class Main {
@@ -9,13 +7,15 @@ public class Main {
     static int num;
     static int maxNum;
     public static void main(String[] args) {
+        HangMan e = new HangMan();
+        e.run();
         maxNum = getNum();
         num = random.nextInt(maxNum)+1;
         System.out.println("You guessed the number in "+doGame()+" guesses!");
     }
     public static int getNum(){
         while (true){
-            System.out.println("Enter your maximum number!\n");
+            System.out.println("Enter your maximum number!");
             String num = scanner.nextLine();
             boolean numeric = true;
             try {
