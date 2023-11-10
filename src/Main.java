@@ -1,45 +1,31 @@
-import java.util.Random;
 import java.util.Scanner;
 public class Main {
-    static Random random = new Random();
     static Scanner scanner = new Scanner(System.in);
-    static int guessNum;
-    static int num;
-    static int maxNum;
+    static String input;
     public static void main(String[] args) {
-        HangMan e = new HangMan();
-        e.run();
-        maxNum = getNum();
-        num = random.nextInt(maxNum)+1;
-        System.out.println("You guessed the number in "+doGame()+" guesses!");
-    }
-    public static int getNum(){
-        while (true){
-            System.out.println("Enter your maximum number!");
-            String num = scanner.nextLine();
-            boolean numeric = true;
-            try {
-                return Integer.parseInt(num);
-            } catch (NumberFormatException e) {
-                numeric = false;
+        while (true) {
+            System.out.println("Would you like to play hangman or number guess");
+            System.out.println("(\"h\" for hangman or \"n\" for number guess game)");
+            input = scanner.nextLine();
+            if (input.equals("h")||input.equals("H")){
+                playHangMan();
+                break;
+            }
+            else if (input.equals("n")|| input.equals("N")) {
+                playNumberGuessingGame();
+                break;
+            }
+            else {
+                System.out.println("That isn't a valid answer");
             }
         }
     }
-    public static int doGame(){
-        int guess = 0;
-        while (true){
-            System.out.println("Guess a number between 1 and "+maxNum);
-            guess = scanner.nextInt();
-            if (guess == num){
-                return guessNum;
-            }
-            else if (guess > num){
-                System.out.println("Too High!");
-            }
-            else if (guess < num){
-                System.out.println("Too Low!");
-            }
-            guessNum += 1;
-        }
+    public static void playHangMan(){
+        HangMan game = new HangMan();
+        game.run();
+    }
+    public static void playNumberGuessingGame(){
+        GuessNum game = new GuessNum();
+        game.main();
     }
 }

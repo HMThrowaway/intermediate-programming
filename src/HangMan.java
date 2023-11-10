@@ -1,11 +1,15 @@
+import java.util.Random;
+
 public class HangMan {
+    Random random = new Random();
     String word;
     char[] letters;
     boolean[] lettersGuessed;
     String guessString;
     boolean wordGuessed;
     char guessChar;
-    int guessNum = 0;
+    boolean letterIn;
+    int guessNum = 1;
     String[] words = {
             "american",
             "blue",
@@ -26,13 +30,10 @@ public class HangMan {
             "ricotta",
             "romano",
             "swiss"};
-    HangMan() {
 
-    }
     public void run(){
         System.out.println("Guess the cheese!");
-        word = words[Main.random.nextInt(0,words.length)];
-        System.out.println(word);
+        word = words[random.nextInt(words.length)];
         letters = word.toCharArray();
         lettersGuessed = new boolean[word.length()];
         for (int i = 0; i < word.length();i++){
@@ -40,6 +41,7 @@ public class HangMan {
         }
 
         while (true){
+            letterIn = false;
             for (int i = 0; i < word.length(); i ++){
                 if (lettersGuessed[i]){
                     System.out.print(word.charAt(i)+" ");
@@ -55,11 +57,11 @@ public class HangMan {
                 for (int i = 0; i <= word.length()-1; i++){
                     if(guessChar == word.charAt(i)){
                         lettersGuessed[i] = true;
+                        letterIn = true;
                     }
                 }
             }
             else if (guessString.equals(word)) {
-                System.out.println("Wow, you guessed it!");
                 break;
             }
             else {
@@ -74,7 +76,13 @@ public class HangMan {
             if (wordGuessed){
                 break;
             }
+            else {
+                guessNum += 1;
+            }
+            if (!letterIn){
+                System.out.println("There was none of that letter in the word");
+            }
         }
-        System.out.println("You guessed the word");
+        System.out.println("You guessed the word in "+guessNum+ " guesses!");
     }
 }
