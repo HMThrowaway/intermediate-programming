@@ -1,0 +1,39 @@
+//This is the code of John Hurd
+
+//Imports
+import java.util.Random;
+import java.util.Scanner;
+public class GuessNum {
+	//Variables
+    static Random random = new Random();
+    static Scanner scanner = new Scanner(System.in);
+    static int guessNum = 1;
+    static int num;
+    static int maxNum;
+    static String input;
+    public void run()  {//Runs the game
+        System.out.println("Enter your maximum number (game will begin once you enter a valid response)");
+        maxNum = getNum();
+        num = random.nextInt(maxNum)+1;
+        System.out.println("See if you can guess it in fewer than " + Main.guessNumHighScore + " guesses");
+        System.out.println("You guessed the number in "+doGame()+" guesses!");
+        if (guessNum < Main.guessNumHighScore){Main.guessNumHighScore = guessNum;}
+    }
+    public int getNum(){//Gets maximum number
+        input = scanner.nextLine();
+        try {return Integer.parseInt(input);}
+        catch (NumberFormatException e) {return getNum();}
+    }
+    public int doGame(){//Does the game once the variables have been gotten
+        int guess;
+        while (true){
+            System.out.println("Guess a number between 1 and "+maxNum);
+            guess = scanner.nextInt();
+            //check if number is too high too low or just right
+            if (guess == num){return guessNum;}
+            else if (guess > num){System.out.println("Too High!");}
+            else if (guess < num){System.out.println("Too Low!");}
+            guessNum += 1;
+        }
+    }
+}
