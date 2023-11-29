@@ -1,6 +1,7 @@
 //This is the code of John Hurd
 
 //Imports
+import java.util.ArrayList;
 import java.util.Random;
 
 public class HangMan {
@@ -14,7 +15,8 @@ public class HangMan {
     char guessChar;
     boolean letterIn;
     int guessNum = 1;
-    String[] words = {//This array contains all the possible words
+    ArrayList<String> words = new ArrayList<>();
+    String[] arrayOfWords = {//This array contains all the possible words
             "american",
             "blue",
             "brie",
@@ -36,8 +38,11 @@ public class HangMan {
             "swiss"};
 
     public void run(){
+        for (String e:arrayOfWords){
+            words.add(e);
+        }
         System.out.println("Guess the cheese!");
-        word = words[random.nextInt(words.length)];
+        word = words.get(random.nextInt(arrayOfWords.length));
         letters = word.toCharArray();
         lettersGuessed = new boolean[word.length()];
         for (int i = 0; i < word.length();i++){lettersGuessed[i] = false;}

@@ -1,6 +1,7 @@
 //This is the code of John Hurd
 
 //Imports
+import java.util.ArrayList;
 import java.util.Scanner;
 public class Main {
     //Variables
@@ -8,8 +9,7 @@ public class Main {
     static String input;
     static int repetitions;
     static boolean gameIsHangman;
-    static int guessNumHighScore;
-    static int hangManHighScore;
+
 
     public static void main(String[] args) {
         //Game Selection

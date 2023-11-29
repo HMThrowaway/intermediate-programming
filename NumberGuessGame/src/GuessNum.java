@@ -1,6 +1,7 @@
 //This is the code of John Hurd
 
 //Imports
+import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 public class GuessNum {
@@ -11,13 +12,17 @@ public class GuessNum {
     static int num;
     static int maxNum;
     static String input;
+    static ArrayList<Integer> guesses = new ArrayList<>();
     public void run()  {//Runs the game
         System.out.println("Enter your maximum number (game will begin once you enter a valid response)");
         maxNum = getNum();
         num = random.nextInt(maxNum)+1;
-        System.out.println("See if you can guess it in fewer than " + Main.guessNumHighScore + " guesses");
+        System.out.println("See if you can guess it in fewer than 10 guesses");
         System.out.println("You guessed the number in "+doGame()+" guesses!");
-        if (guessNum < Main.guessNumHighScore){Main.guessNumHighScore = guessNum;}
+        System.out.println("Your guesses were:");
+        for (int i = 0; i < guesses.size(); i++){
+            System.out.println(guesses.get(i));
+        }
     }
     public int getNum(){//Gets maximum number
         input = scanner.nextLine();
@@ -30,6 +35,7 @@ public class GuessNum {
             System.out.println("Guess a number between 1 and "+maxNum);
             guess = scanner.nextInt();
             //check if number is too high too low or just right
+            guesses.add(guess);
             if (guess == num){return guessNum;}
             else if (guess > num){System.out.println("Too High!");}
             else if (guess < num){System.out.println("Too Low!");}
