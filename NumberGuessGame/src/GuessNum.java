@@ -2,6 +2,7 @@
 
 //Imports
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Random;
 import java.util.Scanner;
 public class GuessNum {
@@ -31,15 +32,22 @@ public class GuessNum {
     }
     public int doGame(){//Does the game once the variables have been gotten
         int guess;
+        System.out.println("Guess a number between 1 and "+maxNum);
         while (true){
-            System.out.println("Guess a number between 1 and "+maxNum);
-            guess = scanner.nextInt();
-            //check if number is too high too low or just right
-            guesses.add(guess);
-            if (guess == num){return guessNum;}
-            else if (guess > num){System.out.println("Too High!");}
-            else if (guess < num){System.out.println("Too Low!");}
-            guessNum += 1;
+            try{
+                 guess = Integer.parseInt(scanner.next());
+                //check if number is too high too low or just right
+                guesses.add(guess);
+                if (guess == num){
+                    return guessNum;
+                }
+                else if (guess > num){System.out.println("Too High!");}
+                else if (guess < num){System.out.println("Too Low!");}
+                guessNum += 1;
+            }
+            catch (NumberFormatException e){
+                System.out.println("Please enter an integer");
+            }
         }
     }
 }
