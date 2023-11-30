@@ -36,14 +36,21 @@ public class GuessNum {
         while (true){
             try{
                  guess = Integer.parseInt(scanner.next());
-                //check if number is too high too low or just right
-                guesses.add(guess);
-                if (guess == num){
-                    return guessNum;
-                }
-                else if (guess > num){System.out.println("Too High!");}
-                else if (guess < num){System.out.println("Too Low!");}
-                guessNum += 1;
+                 if (guesses.contains(guess)){
+                     System.out.println("You already guessed that");
+                 }
+                 else {
+                     //check if number is too high too low or just right
+                     guesses.add(guess);
+                     if (guess == num) {
+                         return guessNum;
+                     } else if (guess > num) {
+                         System.out.println("Too High!");
+                     } else if (guess < num) {
+                         System.out.println("Too Low!");
+                     }
+                     guessNum += 1;
+                 }
             }
             catch (NumberFormatException e){
                 System.out.println("Please enter an integer");
