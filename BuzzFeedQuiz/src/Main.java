@@ -1,14 +1,18 @@
 import java.util.ArrayList;
+import java.util.Scanner;
 
 public class Main {
     static ArrayList<Question> questions = new ArrayList<>();
     static int[] scores = new int[4];
+    static boolean tie = false;
+    static ArrayList<Integer> numsInTie = new ArrayList<>();
     static final String[] answers = {
             "Default",
             "Omega",
             "Peely",
             "Fishstick"
     };
+    static Question tbq = new Question("What was you favorite way to get loot?", "Chest", "Supply Drop", "Loot Llama", "Vending Machine");
     public static void main(String[] args) {
         System.out.println("What fortnite skin are you?\n");
 
@@ -20,40 +24,54 @@ public class Main {
         questions.add(new Question("What was your favorite OG vehicle?", "Golf Cart", "Quad Crashers", "Ballers", "Planes"));
         questions.add(new Question("What was your favorite OG movement item?", "Impulse Grenades", "Grappler", "Flintknock Pistol", "Launch Pads"));
         questions.add(new Question("What was your favorite OG grenade?","Grenade","Air Strike","Boogie Bomb","CLingers"));
-        for (int i = 0; i < questions.size(); i++){
+
+        for (int i = 0; i < 8; i++){
             questions.get(i).ask();
             checkUserInput(i);
         }
         checkAnswer();
 
     }
-    static void checkUserInput(int i){
+    static int checkUserInput(int i){
         switch (questions.get(i).ask().toUpperCase()){
             case "A" -> {
                 Main.scores[0] += 1;
-                return;
+                return 0;
             }
             case "B" -> {
                 Main.scores[1] += 1;
-                return;
+                return 1;
             }
             case "C" -> {
                 Main.scores[2] += 1;
-                return;
+                return 2;
             }
             case "D" -> {
                 Main.scores[3] += 1;
-                return;
+                return 3;
             }
         }
         System.out.println("Please enter a valid response");
         checkUserInput(i);
+        return checkUserInput(i);
     }
     static void checkAnswer(){
         int max = 0;
         for(int i=0; i<scores.length; i++) {
             if (scores[max] < scores[i]) {
                 max = i;
+                tie = false;
+                numsInTie.clear();
+            }
+            else if(scores[max]==scores[i]){
+                tie = true;
+                numsInTie.add(i);
+            }
+        }
+        if (tie){
+            int temp = checkUserInput(8);
+            if (temp < numsInTie.size()) {
+                max = temp;
             }
         }
         System.out.println("You are a "+ answers[max] + " skin");
