@@ -64,18 +64,12 @@ public class HangMan {
                     }
                 }
             }
-            else if (guessString.equals(word)) {
-                break;
-            }
+            else if (guessString.equals(word)) {break;}
             else {System.out.println("Wrong word");}
             wordGuessed = true;
             for (int i = 0; i < word.length(); i ++){if (!lettersGuessed[i]){wordGuessed = false;}}
-            if (wordGuessed){
-                break;
-            }
-            else {
-                guessNum += 1;
-            }
+            if (wordGuessed){break;}
+            else {guessNum += 1;}
             if (!letterIn){System.out.println("There was none of that letter in the word");}
         }
         System.out.println("You guessed the word in "+guessNum+ " guesses!");

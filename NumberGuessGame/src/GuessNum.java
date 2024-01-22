@@ -14,7 +14,7 @@ public class GuessNum {
     static int maxNum;
     static String input;
     static ArrayList<Integer> guesses = new ArrayList<>();
-    public void run()  {//Runs the game
+    public void run(){//Runs the game
         System.out.println("Enter your maximum number (game will begin once you enter a valid response)");
         maxNum = getNum();
         num = random.nextInt(maxNum)+1;
@@ -36,21 +36,14 @@ public class GuessNum {
         while (true){
             try{
                  guess = Integer.parseInt(scanner.next());
-                 if (guesses.contains(guess)){
-                     System.out.println("You already guessed that");
-                 }
-                 else {
-                     //check if number is too high too low or just right
-                     guesses.add(guess);
-                     if (guess == num) {
-                         return guessNum;
-                     } else if (guess > num) {
-                         System.out.println("Too High!");
-                     } else if (guess < num) {
-                         System.out.println("Too Low!");
-                     }
-                     guessNum += 1;
-                 }
+                //check if number is too high too low or just right
+                guesses.add(guess);
+                if (guess == num){
+                    return guessNum;
+                }
+                else if (guess > num){System.out.println("Too High!");}
+                else if (guess < num){System.out.println("Too Low!");}
+                guessNum += 1;
             }
             catch (NumberFormatException e){
                 System.out.println("Please enter an integer");
