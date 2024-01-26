@@ -11,7 +11,7 @@ public class HangManAI {
     HashMap<Character,Integer> letterScores = new HashMap<>();
     FileWriter fileWriter;
     String type;
-    String alphabet = "abcdefghijklmnopqrstuvwxyz".toUpperCase();
+    final String alphabet = "abcdefghijklmnopqrstuvwxyz".toUpperCase();
     String lettersGuessed;
 
     {

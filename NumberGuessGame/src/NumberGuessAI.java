@@ -12,7 +12,7 @@ public class NumberGuessAI {
         int guess = 0;
         switch (strategy){
             case "Random" -> {
-                guess = random.nextInt(min,max);
+                guess = random.nextInt(max-min)+min;
             }
             case "Half" -> {
                 guess = (min+max)/2;
