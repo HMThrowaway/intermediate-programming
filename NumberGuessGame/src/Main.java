@@ -9,11 +9,11 @@ public class Main {
     static String input;
     static int repetitions;
     static boolean gameIsHangman;
-
+    static HangManAI temp = new HangManAI("Random");
 
     public static void main(String[] args) {
         //Game Selection
-        System.out.println("Would you like to play hangman or number guess");
+        System.out.println("Select your game");
         System.out.println("(\"h\" for hangman or \"n\" for number guess game)");
         while (true) {
             input = scanner.nextLine();
@@ -27,6 +27,8 @@ public class Main {
             }
             else {System.out.println("That isn't a valid answer");}
         }
+
+        System.out.println("Do you or the AI want to play\n\"a\" for AI \"h");
 
         System.out.println("How many times would you like to play this game?");
         while (true){//How many times the player would like to play the game
