@@ -1,52 +1,35 @@
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 import java.util.stream.Stream;
 
 public class HangManAI {
     HashMap<Character,Integer> letterScores = new HashMap<>();
-    FileWriter fileWriter;
+    ;
     String type;
-    final String alphabet = "abcdefghijklmnopqrstuvwxyz".toUpperCase();
-    String lettersGuessed;
+    final String alphabet = "abcdefghijklmnopqrstuvwxyz";
 
-    {
-        try {
-            this.fileWriter = new FileWriter("src/HangManAIData.txt");
-        } catch (IOException e) {
-            System.out.println("Something went wrong!");
-        }
-    }
+    ArrayList<String> possibleWords = new ArrayList<>();
 
-    HangManAI(String t) {
+    HangManAI(String t){
         type = t;
 
-        for (int i = 0; i < 26; i++){
-            int temp;
-            try (Stream<String> lines = Files.lines(Paths.get("src/HangManAIData.txt"))) {
-                temp = Integer.parseInt(lines.skip(i).findFirst().get());
-            } catch (Exception e) {
-                temp = 0;
-                try {
-                    fileWriter.write("0\n");
-                }
-                catch (Exception ex){}
-            }
-            letterScores.put(alphabet.charAt(i),temp);
+        FileWriter fileWriter;
+        try {
+            fileWriter = new FileWriter("src/HangManAIData.txt");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        for (int i = 0; i < 26; i++) {
+            //TODO Add code for writing to file
         }
         try {
             fileWriter.close();
-        }
-        catch (IOException e){
-            System.out.println("FileWriter couldn't close!");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
         //FileWriter Stuff Done
-
-
 
 
     }
@@ -54,10 +37,7 @@ public class HangManAI {
         char guess = 'A';
         switch (type){
             case "Random" ->{
-                guess = alphabet.charAt(
-                        new Random()
-                                .nextInt(25)
-                );
+                guess = alphabet.charAt(new Random().nextInt(25));
             }
             case "Smart" -> {
                 int highScore = 0;
@@ -70,9 +50,15 @@ public class HangManAI {
                         guess = key;
                     }
                 }
+                //TODO Finish Smart code
             }
-            case "" -> {
-
+            case "Einstein" -> {
+                for (int i = 0; i < 2314; i++){
+                    try (Stream<String> lines = Files.lines(Paths.get("src/HangManAIData.txt"))) {
+                        possibleWords.add(lines.skip(i).findFirst().get());
+                    } catch (Exception ignored) {}
+                }
+                //TODO Finish Eintsein Code
             }
         }
         return guess;

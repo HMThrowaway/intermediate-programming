@@ -1,37 +1,59 @@
 //This is the code of John Hurd
 
 //Imports
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.FileWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Random;
+import java.util.Scanner;
 import java.util.stream.Stream;
 
 public class HangMan {
     //Variables
     Random random = new Random();
-    String word;
+    static String word;
     char[] letters;
-    boolean[] lettersGuessed;
+    static boolean[] lettersGuessed;
     String guessString;
-    boolean wordGuessed;
+    static boolean wordGuessed;
     char guessChar;
-    boolean letterIn;
-    int guessNum = 1;
+    static boolean letterIn;
+    static int guessNum = 1;
 
-
-    public void run(){
+    HangMan(String p){
         try (Stream<String> lines = Files.lines(Paths.get("src/words.txt"))) {
             word = lines.skip(random.nextInt(2315)).findFirst().get();
-        } catch (Exception e) {
+        } catch (Exception ignored) {}
+
+        if (Objects.equals(p, "Human")){
+            runHumanPlayer();
         }
+        else {
+            runAIPlayer();
+        }
+    }
+    public void runAIPlayer(){
+        String AIType = "";
+        while (AIType.isEmpty()){
+            Scanner sc = new Scanner(System.in);
+            System.out.println("What type of AI should the AI run?");
+            String input = sc.nextLine();
+            if (input.equals("Smart")||input.equals("Random")){
+                AIType = input;
+            }
+        }
+        HangManAI player = new HangManAI(AIType);
+
+
+
+    }
+    public void runHumanPlayer(){
         System.out.println("Guess the word!");
         letters = word.toCharArray();
         lettersGuessed = new boolean[word.length()];
-        for (int i = 0; i < word.length();i++){lettersGuessed[i] = false;}
+        for (int i = 0; i < word.length();i++){
+            lettersGuessed[i] = false;
+        }
 
         while (true){
             letterIn = false;
@@ -44,38 +66,46 @@ public class HangMan {
 
             guessString = Main.scanner.nextLine();
 
-            if (guessString.length() == 1){
-                guessChar = guessString.charAt(0);
-                for (int i = 0; i <= word.length()-1; i++){
-                    if(guessChar == word.charAt(i)){
-                        lettersGuessed[i] = true;
-                        letterIn = true;
-                    }
-                }
-            }
-
-            else if (guessString.equals(word)) {
-                break;
-            }
-
-            else {
-                System.out.println("Wrong word");
-            }
-
-            wordGuessed = true;
-            for (int i = 0; i < word.length(); i ++){
-                if (!lettersGuessed[i]){
-                    wordGuessed = false;
-                }
-            }
-            if (wordGuessed){
-                break;
-            }
-            else {
-                guessNum += 1;
-            }
-            if (!letterIn){System.out.println("There was none of that letter in the word");}
         }
+
+    }
+    static boolean guess(String s){//returns true if word is guessed
+        if (s.length() == 1){
+            char c = s.charAt(0);
+            for (int i = 0; i <= word.length()-1; i++){
+                if(c == word.charAt(i)){
+                    lettersGuessed[i] = true;
+                    letterIn = true;
+                }
+            }
+        }
+        else if (s.equals(word)) {
+            return true;
+        }
+        else {
+            System.out.println("Wrong word");
+        }
+
+        if (!letterIn){
+            System.out.println("There was none of that letter in the word");
+        }
+
+        wordGuessed = true;
+        for (int i = 0; i < word.length(); i ++){
+            if (!lettersGuessed[i]){
+                wordGuessed = false;
+            }
+        }
+
+        if (wordGuessed){
+            return true;
+        } else {
+            guessNum += 1;
+        }
+
+        return false;
+    }
+    static void finish(){
         System.out.println("You guessed the word in "+guessNum+ " guesses!");
     }
 }

@@ -10,13 +10,13 @@ public class Main {
     static String input;
     static int repetitions;
     static boolean gameIsHangman;
-    static boolean playerIsHuman;
-    static HangManAI temp = new HangManAI("Random");
+    static String playerType;
+    static HangManAI temp = new HangManAI("Smart");
 
     public static void main(String[] args) {
+        System.out.println(new HangManAI("Smart").guess());
         //Game Selection
-        System.out.println("Select your game");
-        System.out.println("(\"h\" for hangman or \"n\" for number guess game)");
+        System.out.println("Select your game (\"h\" for hangman or \"n\" for number guess game)");
         while (true) {
             input = scanner.nextLine();
             if (input.equals("h")||input.equals("H")){
@@ -36,10 +36,10 @@ public class Main {
             try {
                 //This line will throw an exception if the user input couldn't be converted to an int
                 if (input.equalsIgnoreCase("A")){
-                    playerIsHuman = false;
+                    playerType = "AI";
                 }
                 else if(input.equalsIgnoreCase("H")){
-                    playerIsHuman = true;
+                    playerType = "Human";
                 }
                 break;
             }
@@ -60,8 +60,12 @@ public class Main {
         }
         for (int i = 1; i <repetitions+1; i++){
             System.out.println("\nGame "+i+" out of "+repetitions);
-            if (gameIsHangman){new HangMan().run();} //runs hangman
-            else {new GuessNum().run();} //runs number guessing game
+            if (gameIsHangman){
+                new HangMan(playerType);
+            } //runs hangman
+            else {
+                new GuessNum().run();
+            } //runs number guessing game
         }
     }
 }
