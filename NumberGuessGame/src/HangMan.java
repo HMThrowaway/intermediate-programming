@@ -1,6 +1,7 @@
 //This is the code of John Hurd
 
 //Imports
+import java.io.FileWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Objects;
@@ -16,16 +17,17 @@ public class HangMan {
     static boolean[] lettersGuessed;
     String guessString;
     static boolean wordGuessed;
-    char guessChar;
     static boolean letterIn;
     static int guessNum = 1;
+    static String playerType;
+
 
     HangMan(String p){
         try (Stream<String> lines = Files.lines(Paths.get("src/words.txt"))) {
             word = lines.skip(random.nextInt(2315)).findFirst().get();
         } catch (Exception ignored) {}
-
-        if (Objects.equals(p, "Human")){
+        playerType = p;
+        if (playerType.equals("Human")){
             runHumanPlayer();
         }
         else {
@@ -33,17 +35,15 @@ public class HangMan {
         }
     }
     public void runAIPlayer(){
-        String AIType = "";
-        while (AIType.isEmpty()){
-            Scanner sc = new Scanner(System.in);
-            System.out.println("What type of AI should the AI run?");
-            String input = sc.nextLine();
-            if (input.equals("Smart")||input.equals("Random")){
-                AIType = input;
+
+        HangManAI player = new HangManAI(playerType);
+
+        while (true){
+            if (guess(player.guess())){
+                finish();
+                break;
             }
         }
-        HangManAI player = new HangManAI(AIType);
-
 
 
     }
@@ -63,8 +63,16 @@ public class HangMan {
             }
 
             System.out.println("\nEnter the letter you are guessing");
-
             guessString = Main.scanner.nextLine();
+            try {
+                Integer.parseInt(guessString);
+            }
+            catch (Exception ignored){
+                if (guess(guessString)){
+                    finish();
+                    break;
+                }
+            }
 
         }
 
@@ -92,8 +100,9 @@ public class HangMan {
 
         wordGuessed = true;
         for (int i = 0; i < word.length(); i ++){
-            if (!lettersGuessed[i]){
+            if (!lettersGuessed[i]) {
                 wordGuessed = false;
+                break;
             }
         }
 
@@ -106,6 +115,8 @@ public class HangMan {
         return false;
     }
     static void finish(){
+
+        System.out.println("Your word was "+word);
         System.out.println("You guessed the word in "+guessNum+ " guesses!");
     }
 }

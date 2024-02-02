@@ -5,8 +5,8 @@ import java.util.*;
 import java.util.stream.Stream;
 
 public class HangManAI {
-    HashMap<Character,Integer> letterScores = new HashMap<>();
-    ;
+    HashMap<String,Integer[]> letterScores = new HashMap<>();
+    HangMan game = Main.hangManGame;
     String type;
     final String alphabet = "abcdefghijklmnopqrstuvwxyz";
 
@@ -14,43 +14,42 @@ public class HangManAI {
 
     HangManAI(String t){
         type = t;
+        File file = new File("src/HangManAIData.txt");
+        Scanner fileReader;
+        try {
+            fileReader = new Scanner(file);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
-        FileWriter fileWriter;
-        try {
-            fileWriter = new FileWriter("src/HangManAIData.txt");
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
         for (int i = 0; i < 26; i++) {
-            //TODO Add code for writing to file
-        }
-        try {
-            fileWriter.close();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+            try {
+                letterScores.put(String.valueOf(alphabet.charAt(i)), new Integer[]{fileReader.nextInt(), fileReader.nextInt()});
+            }
+            catch (Exception ignored){}
         }
         //FileWriter Stuff Done
 
 
     }
-    char guess(){
-        char guess = 'A';
+    String guess(){
+        String guess = "a";
         switch (type){
             case "Random" ->{
-                guess = alphabet.charAt(new Random().nextInt(25));
+                guess = String.valueOf(alphabet.charAt(new Random().nextInt(25)));
             }
             case "Smart" -> {
                 int highScore = 0;
 
-                for (Map.Entry<Character, Integer> entry : letterScores.entrySet()){
-                    char key = entry.getKey();
-                    int value = entry.getValue();
-                    if (key>highScore){
-                        highScore = key;
+                for (Map.Entry<String, Integer[]> entry : letterScores.entrySet()){
+                    String key = entry.getKey();
+                    int value = entry.getValue()[0]/entry.getValue()[1];
+                    if (value>highScore){
+                        highScore = value;
                         guess = key;
                     }
                 }
-                //TODO Finish Smart code
+                System.out.println(guess);
             }
             case "Einstein" -> {
                 for (int i = 0; i < 2314; i++){
@@ -62,5 +61,15 @@ public class HangManAI {
             }
         }
         return guess;
+    }
+    void close(){
+        try {
+            FileWriter writer = new FileWriter("src/HangManAIData.txt");
+            for (int i = 0; i < 26; i++){
+                writer.write(letterScores.get(String.valueOf(alphabet.charAt(i)))[0]+ " " + letterScores.get(String.valueOf(alphabet.charAt(i)))[1]);
+            }
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

@@ -11,10 +11,10 @@ public class Main {
     static int repetitions;
     static boolean gameIsHangman;
     static String playerType;
-    static HangManAI temp = new HangManAI("Smart");
+    static HangMan hangManGame;
+    static GuessNum guessNumGame;
 
     public static void main(String[] args) {
-        System.out.println(new HangManAI("Smart").guess());
         //Game Selection
         System.out.println("Select your game (\"h\" for hangman or \"n\" for number guess game)");
         while (true) {
@@ -31,19 +31,25 @@ public class Main {
         }
 
         System.out.println("Do you or the AI want to play\n\"a\" for AI \"h\" for you");
+        input = scanner.nextLine();
         while (true){//How many times the player would like to play the game
-            input = scanner.nextLine();
             try {
                 //This line will throw an exception if the user input couldn't be converted to an int
                 if (input.equalsIgnoreCase("A")){
                     playerType = "AI";
+                    break;
                 }
                 else if(input.equalsIgnoreCase("H")){
                     playerType = "Human";
+                    break;
                 }
-                break;
+                System.out.println("Please enter either \"a\" or \"h\"");
+                input = scanner.nextLine();
             }
-            catch (Exception e){System.out.println("Please enter either \"a\" or \"h\"");}
+            catch (Exception e){
+                System.out.println("Please enter either \"a\" or \"h\"");
+                input = scanner.nextLine();
+            }
         }
 
         System.out.println("How many times should the player play this game?");
@@ -58,13 +64,46 @@ public class Main {
             }
             catch (Exception e){System.out.println("Please enter an integer greater than 0");}
         }
+
+
+        String AIType = "";
+        if (!playerType.equals("Human") && gameIsHangman) {
+            System.out.println("What type of AI should the AI run?");
+            System.out.println("Types: Smart, Random, and Einstein");
+            while (AIType.isEmpty()) {
+                Scanner sc = new Scanner(System.in);
+
+                String input = sc.nextLine();
+                if (input.equalsIgnoreCase("Smart") || input.equalsIgnoreCase("Random") || input.equalsIgnoreCase("Einstein")) {
+                    AIType = input;
+                }
+                else {
+                    System.out.println("That isn't a valid response");
+                }
+            }
+        }
+        if (!playerType.equals("Human") && !gameIsHangman) {
+            System.out.println("What type of AI should the AI run?");
+            System.out.println("Types: Half, Random, and Linear");
+            while (AIType.isEmpty()) {
+                Scanner sc = new Scanner(System.in);
+                String input = sc.nextLine();
+                if (input.equalsIgnoreCase("Random") || input.equalsIgnoreCase("Half") || input.equalsIgnoreCase("Linear")) {
+                    AIType = input;
+                }
+                else {
+                    System.out.println("That isn't a valid response");
+                }
+            }
+        }
+
         for (int i = 1; i <repetitions+1; i++){
             System.out.println("\nGame "+i+" out of "+repetitions);
             if (gameIsHangman){
-                new HangMan(playerType);
+                hangManGame = new HangMan(playerType);
             } //runs hangman
             else {
-                new GuessNum().run();
+                guessNumGame = new GuessNum(playerType);
             } //runs number guessing game
         }
     }

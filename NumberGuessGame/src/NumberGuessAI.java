@@ -1,14 +1,40 @@
 import java.util.Random;
 
 public class NumberGuessAI {
-    Random random = new Random();
-    int min;
-    int max;
-    String strategy;
-    NumberGuessAI(String strategy){
+    private final Random random = new Random();
+    private final String strategy;
+    private int min = 0;
+    private int max;
+    private int guessNum = 1;
+
+    NumberGuessAI(String strategy, int max){
         this.strategy = strategy;
+        this.max = max;
+        go();
     }
-    int guess(String strategy, int min, int max){
+    void go(){
+        boolean temp = true;
+
+        while (temp){
+            int guess = guess();
+            GuessNum.guesses.add(guess);
+
+            switch (GuessNum.checkGuess(guess)){
+                case 1 -> {
+                    min = guess;
+                }
+                case -1 -> {
+                    max = guess;
+                }
+                case 0 -> {
+                    GuessNum.finish();
+                    temp = false;
+                }
+            }
+            guessNum++;
+        }
+    }
+    int guess(){
         int guess = 0;
         switch (strategy){
             case "Random" -> {
@@ -22,5 +48,8 @@ public class NumberGuessAI {
             }
         }
         return guess;
+    }
+    void finish(){
+        GuessNum.finish();
     }
 }
