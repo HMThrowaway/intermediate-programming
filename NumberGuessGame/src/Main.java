@@ -1,8 +1,6 @@
 //This is the code of John Hurd
 
-//Imports
-import java.util.ArrayList;
-import java.util.List;
+//Import
 import java.util.Scanner;
 public class Main {
     //Variables
@@ -15,6 +13,7 @@ public class Main {
     static GuessNum guessNumGame;
 
     public static void main(String[] args) {
+        new GuessNum("half",100);
         //Game Selection
         System.out.println("Select your game (\"h\" for hangman or \"n\" for number guess game)");
         while (true) {
@@ -85,11 +84,12 @@ public class Main {
         if (!playerType.equals("Human") && !gameIsHangman) {
             System.out.println("What type of AI should the AI run?");
             System.out.println("Types: Half, Random, and Linear");
-            while (AIType.isEmpty()) {
+            while (true) {
                 Scanner sc = new Scanner(System.in);
                 String input = sc.nextLine();
                 if (input.equalsIgnoreCase("Random") || input.equalsIgnoreCase("Half") || input.equalsIgnoreCase("Linear")) {
-                    AIType = input;
+                    playerType = input;
+                    break;
                 }
                 else {
                     System.out.println("That isn't a valid response");
@@ -97,13 +97,31 @@ public class Main {
             }
         }
 
+
+        //System.out.println("Num: "+ maxNum);
         for (int i = 1; i <repetitions+1; i++){
             System.out.println("\nGame "+i+" out of "+repetitions);
             if (gameIsHangman){
                 hangManGame = new HangMan(playerType);
             } //runs hangman
             else {
-                guessNumGame = new GuessNum(playerType);
+                int maxNum;
+                System.out.println("Enter the maximum number (game will begin once you enter a valid response)");
+                while (true){
+                    try {
+                        maxNum = Integer.parseInt(scanner.nextLine());
+                        if (maxNum > 0){
+                            break;
+                        }
+                        else {
+                            System.out.println("Please enter a positive integer");
+                        }
+
+                    } catch (NumberFormatException e){
+                        System.out.println("Please enter a positive integer");
+                    }
+                }
+                guessNumGame = new GuessNum(playerType,maxNum);
             } //runs number guessing game
         }
     }

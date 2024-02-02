@@ -2,6 +2,7 @@
 
 //Imports
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 import java.util.Scanner;
 public class GuessNum {
@@ -12,30 +13,16 @@ public class GuessNum {
     static int num;
     static int maxNum;
     static String AItype;
-    static String input;
     static ArrayList<Integer> guesses;
     static NumberGuessAI player;
+    static HashMap<Integer,Integer> guessCounts = new HashMap<>();
 
-    GuessNum (String t){
+    GuessNum (String t, int max){
         AItype = t;
         guesses = new ArrayList<>();
         guessNum = 1;
-        System.out.println("Enter the maximum number (game will begin once you enter a valid response)");
-        while (true){
-            try {
-                maxNum = Integer.parseInt(scanner.nextLine());
-                if (maxNum > 0){
-                    break;
-                }
-                else {
-                    System.out.println("Please enter a positive integer");
-                }
+        maxNum = max;
 
-            } catch (NumberFormatException e){
-                System.out.println("Please enter a positive integer");
-            }
-
-        }
         num = random.nextInt(maxNum)+1;
         if (AItype.equalsIgnoreCase("Human")){
             doGameHuman();
@@ -46,6 +33,7 @@ public class GuessNum {
     }
     public void doGameAI(){
         player = new NumberGuessAI(AItype, maxNum);
+        System.out.println("Number: " + num);
     }
     public void doGameHuman(){//Does the game once the variables have been gotten
 
@@ -59,11 +47,11 @@ public class GuessNum {
                 //check if number is too high too low or just right
 
                 guesses.add(guess);
-                int higherOrLower = checkGuess(guess);
-                if (higherOrLower == 1){
+                String higherOrLower = checkGuess(guess);
+                if (higherOrLower.equals("Higher")){
                     System.out.println("Too High!");
                 }
-                else if (higherOrLower == -1){
+                else if (higherOrLower.equals("Lower")){
                     System.out.println("Too Low!");
 
                 }
@@ -78,14 +66,14 @@ public class GuessNum {
         }
         finish();
     }
-    static int checkGuess(int guess){
+    static String checkGuess(int guess){
         if (guess>num){
-            return 1;
+            return "Lower";
         }
         else if (guess < num){
-            return -1;
+            return "Higher";
         }
-        return 0;
+        return "Equal";
     }
     static void finish(){
         System.out.println("The player guessed the number in "+ guessNum +" guesses!");
