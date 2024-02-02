@@ -19,11 +19,11 @@ public class Main {
         System.out.println("Select your game (\"h\" for hangman or \"n\" for number guess game)");
         while (true) {
             input = scanner.nextLine();
-            if (input.equals("h")||input.equals("H")){
+            if (input.equalsIgnoreCase("h")){
                 gameIsHangman = true;
                 break;
             }
-            else if (input.equals("n")|| input.equals("N")) {
+            else if (input.equalsIgnoreCase("n")) {
                 gameIsHangman = false;
                 break;
             }

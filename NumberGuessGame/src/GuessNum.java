@@ -20,17 +20,6 @@ public class GuessNum {
         AItype = t;
         guesses = new ArrayList<>();
         guessNum = 1;
-        if (AItype.equalsIgnoreCase("Human")){
-            doGameHuman();
-        }
-        else {
-            doGameAI();
-        }
-    }
-    public void doGameAI(){
-        player = new NumberGuessAI(AItype, maxNum);
-    }
-    public void doGameHuman(){//Does the game once the variables have been gotten
         System.out.println("Enter the maximum number (game will begin once you enter a valid response)");
         while (true){
             try {
@@ -48,6 +37,18 @@ public class GuessNum {
 
         }
         num = random.nextInt(maxNum)+1;
+        if (AItype.equalsIgnoreCase("Human")){
+            doGameHuman();
+        }
+        else {
+            doGameAI();
+        }
+    }
+    public void doGameAI(){
+        player = new NumberGuessAI(AItype, maxNum);
+    }
+    public void doGameHuman(){//Does the game once the variables have been gotten
+
         System.out.println("See if you can guess it in fewer than 10 guesses");
 
         int guess;

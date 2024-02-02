@@ -3,7 +3,7 @@ import java.util.Random;
 public class NumberGuessAI {
     private final Random random = new Random();
     private final String strategy;
-    private int min = 0;
+    private int min = 1;
     private int max;
     private int guessNum = 1;
 
@@ -14,11 +14,10 @@ public class NumberGuessAI {
     }
     void go(){
         boolean temp = true;
-
-        while (temp){
+        System.out.println(min + " "+ max);
+        while (min <= max){
             int guess = guess();
             GuessNum.guesses.add(guess);
-
             switch (GuessNum.checkGuess(guess)){
                 case 1 -> {
                     min = guess;
@@ -28,7 +27,8 @@ public class NumberGuessAI {
                 }
                 case 0 -> {
                     GuessNum.finish();
-                    temp = false;
+                    min = guess;
+                    max = guess;
                 }
             }
             guessNum++;
@@ -36,6 +36,7 @@ public class NumberGuessAI {
     }
     int guess(){
         int guess = 0;
+
         switch (strategy){
             case "Random" -> {
                 guess = random.nextInt(max-min)+min;
