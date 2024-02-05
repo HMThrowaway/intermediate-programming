@@ -13,7 +13,6 @@ public class Main {
     static GuessNum guessNumGame;
 
     public static void main(String[] args) {
-        new GuessNum("half",100);
         //Game Selection
         System.out.println("Select your game (\"h\" for hangman or \"n\" for number guess game)");
         while (true) {
@@ -96,7 +95,24 @@ public class Main {
                 }
             }
         }
+        int maxNum = 0;
+        if (!gameIsHangman){
+            System.out.println("Enter the maximum number (game will begin once you enter a valid response)");
+            while (true){
+                try {
+                    maxNum = Integer.parseInt(scanner.nextLine());
+                    if (maxNum > 0){
+                        break;
+                    }
+                    else {
+                        System.out.println("Please enter a positive integer");
+                    }
 
+                } catch (NumberFormatException e){
+                    System.out.println("Please enter a positive integer");
+                }
+            }
+        }
 
         //System.out.println("Num: "+ maxNum);
         for (int i = 1; i <repetitions+1; i++){
@@ -105,24 +121,15 @@ public class Main {
                 hangManGame = new HangMan(playerType);
             } //runs hangman
             else {
-                int maxNum;
-                System.out.println("Enter the maximum number (game will begin once you enter a valid response)");
-                while (true){
-                    try {
-                        maxNum = Integer.parseInt(scanner.nextLine());
-                        if (maxNum > 0){
-                            break;
-                        }
-                        else {
-                            System.out.println("Please enter a positive integer");
-                        }
-
-                    } catch (NumberFormatException e){
-                        System.out.println("Please enter a positive integer");
-                    }
-                }
                 guessNumGame = new GuessNum(playerType,maxNum);
             } //runs number guessing game
+        }
+
+        if (!gameIsHangman){
+            System.out.println("Guess counts: ");
+            for (int i = 0; i < maxNum; i++){
+                System.out.println(GuessNum.guessCounts.get(i));
+            }
         }
     }
 }

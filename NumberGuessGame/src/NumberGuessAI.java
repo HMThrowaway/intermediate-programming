@@ -51,10 +51,6 @@ public class NumberGuessAI {
                 guess = min+1;
             }
         }
-        System.out.println(strategy.toUpperCase());
         return guess;
-    }
-    void finish(){
-        GuessNum.finish();
     }
 }

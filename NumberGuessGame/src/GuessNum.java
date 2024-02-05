@@ -23,6 +23,12 @@ public class GuessNum {
         guessNum = 1;
         maxNum = max;
 
+       for (int i = 0; i < maxNum; i++){
+           if (!guessCounts.isEmpty()){
+               guessCounts.put(i,0);
+           }
+       }
+
         num = random.nextInt(maxNum)+1;
         if (AItype.equalsIgnoreCase("Human")){
             doGameHuman();
@@ -80,6 +86,13 @@ public class GuessNum {
         System.out.println("The guesses were:");
         for (int i = 0; i < guesses.size(); i++){
             System.out.println(guesses.get(i));
+            System.out.println(guessCounts.get(i));
+
         }
+        
+        for (Integer guess : guesses) {
+            guessCounts.put(guess, guessCounts.get(guess) + 1);
+        }
+
     }
 }
