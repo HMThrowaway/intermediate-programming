@@ -1,6 +1,7 @@
 //This is the code of John Hurd
 
 //Import
+import java.util.HashMap;
 import java.util.Scanner;
 public class Main {
     //Variables
@@ -11,8 +12,11 @@ public class Main {
     static String playerType;
     static HangMan hangManGame;
     static GuessNum guessNumGame;
+    static HashMap<Integer,Integer> guessCounts = new HashMap<>();
+    static double avg;
 
     public static void main(String[] args) {
+
         //Game Selection
         System.out.println("Select your game (\"h\" for hangman or \"n\" for number guess game)");
         while (true) {
@@ -102,6 +106,7 @@ public class Main {
                 try {
                     maxNum = Integer.parseInt(scanner.nextLine());
                     if (maxNum > 0){
+                        maxNum+=2;
                         break;
                     }
                     else {
@@ -113,7 +118,9 @@ public class Main {
                 }
             }
         }
-
+        for (int i = 0; i < maxNum; i++){
+            Main.guessCounts.put(i,0);
+        }
         //System.out.println("Num: "+ maxNum);
         for (int i = 1; i <repetitions+1; i++){
             System.out.println("\nGame "+i+" out of "+repetitions);
@@ -127,8 +134,8 @@ public class Main {
 
         if (!gameIsHangman){
             System.out.println("Guess counts: ");
-            for (int i = 0; i < maxNum; i++){
-                System.out.println(GuessNum.guessCounts.get(i));
+            for (int i = 1; i < maxNum-1; i++){
+                System.out.println(i + ": "+guessCounts.get(i));
             }
         }
     }

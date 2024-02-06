@@ -15,7 +15,7 @@ public class GuessNum {
     static String AItype;
     static ArrayList<Integer> guesses;
     static NumberGuessAI player;
-    static HashMap<Integer,Integer> guessCounts = new HashMap<>();
+
 
     GuessNum (String t, int max){
         AItype = t;
@@ -23,11 +23,7 @@ public class GuessNum {
         guessNum = 1;
         maxNum = max;
 
-       for (int i = 0; i < maxNum; i++){
-           if (!guessCounts.isEmpty()){
-               guessCounts.put(i,0);
-           }
-       }
+
 
         num = random.nextInt(maxNum)+1;
         if (AItype.equalsIgnoreCase("Human")){
@@ -70,6 +66,11 @@ public class GuessNum {
                 System.out.println("Please enter an integer");
             }
         }
+        System.out.println("The guesses were:");
+        for (int i = 0; i < guesses.size(); i++){
+            System.out.println(guesses.get(i));
+            System.out.println(Main.guessCounts.get(i));
+        }
         finish();
     }
     static String checkGuess(int guess){
@@ -83,16 +84,11 @@ public class GuessNum {
     }
     static void finish(){
         System.out.println("The player guessed the number in "+ guessNum +" guesses!");
-        System.out.println("The guesses were:");
-        for (int i = 0; i < guesses.size(); i++){
-            System.out.println(guesses.get(i));
-            System.out.println(guessCounts.get(i));
-
-        }
         
         for (Integer guess : guesses) {
-            guessCounts.put(guess, guessCounts.get(guess) + 1);
+            Main.guessCounts.put(guess-1, Main.guessCounts.get(guess-1) + 1);
         }
+        Main.avg += 
 
     }
 }

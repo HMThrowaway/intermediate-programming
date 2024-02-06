@@ -10,6 +10,7 @@ public class HangManAI {
     String type;
     final String alphabet = "abcdefghijklmnopqrstuvwxyz";
 
+
     ArrayList<String> possibleWords = new ArrayList<>();
 
     HangManAI(String t){
