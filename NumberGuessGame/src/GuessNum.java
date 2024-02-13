@@ -86,9 +86,8 @@ public class GuessNum {
         System.out.println("The player guessed the number in "+ guessNum +" guesses!");
         
         for (Integer guess : guesses) {
-            Main.guessCounts.put(guess-1, Main.guessCounts.get(guess-1) + 1);
+            Main.guessCounts.put(guess - 1, Main.guessCounts.get(guess - 1) + 1);
         }
-        Main.avg += 
 
     }
 }

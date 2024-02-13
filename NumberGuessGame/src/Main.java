@@ -18,6 +18,7 @@ public class Main {
     public static void main(String[] args) {
 
         //Game Selection
+        /*
         System.out.println("Select your game (\"h\" for hangman or \"n\" for number guess game)");
         while (true) {
             input = scanner.nextLine();
@@ -31,29 +32,33 @@ public class Main {
             }
             else {System.out.println("That isn't a valid answer");}
         }
+        */
+        gameIsHangman = false;
 
-        System.out.println("Do you or the AI want to play\n\"a\" for AI \"h\" for you");
-        input = scanner.nextLine();
-        while (true){//How many times the player would like to play the game
-            try {
-                //This line will throw an exception if the user input couldn't be converted to an int
-                if (input.equalsIgnoreCase("A")){
-                    playerType = "AI";
-                    break;
+        if (!gameIsHangman) {
+            System.out.println("Do you or the AI want to play\n\"a\" for AI \"h\" for you");
+            input = scanner.nextLine();
+            while (true) {//How many times the player would like to play the game
+                try {
+                    //This line will throw an exception if the user input couldn't be converted to an int
+                    if (input.equalsIgnoreCase("A")) {
+                        playerType = "AI";
+                        break;
+                    } else if (input.equalsIgnoreCase("H")) {
+                        playerType = "Human";
+                        break;
+                    }
+                    System.out.println("Please enter either \"a\" or \"h\"");
+                    input = scanner.nextLine();
+                } catch (Exception e) {
+                    System.out.println("Please enter either \"a\" or \"h\"");
+                    input = scanner.nextLine();
                 }
-                else if(input.equalsIgnoreCase("H")){
-                    playerType = "Human";
-                    break;
-                }
-                System.out.println("Please enter either \"a\" or \"h\"");
-                input = scanner.nextLine();
-            }
-            catch (Exception e){
-                System.out.println("Please enter either \"a\" or \"h\"");
-                input = scanner.nextLine();
             }
         }
-
+        else {
+            playerType = "Human";
+        }
         System.out.println("How many times should the player play this game?");
         while (true){//How many times the player would like to play the game
             input = scanner.nextLine();
