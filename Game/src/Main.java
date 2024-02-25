@@ -18,6 +18,7 @@ public class Main extends PApplet {
     public void settings() {
         fullScreen();//sets screen size
     }
+    @Override
     public void setup(){
         textAlign(CENTER);
         savesDirectorySize = getDirectorySize("Saves");
@@ -35,15 +36,37 @@ public class Main extends PApplet {
 
     @Override
     public void mousePressed() {
-        if (mouseX>width/2-100&&mouseX<width/2+100){
-            if (mouseY>height/2-75&&mouseY<height/2+25){//checks for play button press
-                state = GameState.RUNNING;
-                System.exit(0);
+        switch (state) {
+            case START -> {
+                if (mouseX > width / 2 - 100 && mouseX < width / 2 + 100) {
+                    if (mouseY > height / 2 - 75 && mouseY < height / 2 + 25) {//checks for play button press
+                        state = GameState.RUNNING;
+                        System.exit(0);
+                    } else if (mouseY > height / 2 + 75 && mouseY < height / 2 + 175) {//checks for load button press
+                        state = GameState.LOADING;
+                    }
+                }
             }
-            else if (mouseY>height/2+75&&mouseY<height/2+175){//checks for load button press
-                state = GameState.LOADING;
+            case LOADING -> {
+                int selectedSaveNum = -1;
+                for (int i = 0; i < 7; i++) {
+                    if (mouseY > height / 2 + 150 * (i - savesDirectorySize / 2) - 50
+                            && mouseY < height / 2 + 150 * (i - savesDirectorySize / 2) + 50
+                            && mouseX > width/2-16*getFileInDirectoryName("Saves",i).length()+40
+                            && mouseX < width/2-16*getFileInDirectoryName("Saves",i).length()+40 + 32*getFileInDirectoryName("Saves",i).length()-80) {
+                        selectedSaveNum = i;
+                        break;
+                    }
+                }
+                if (selectedSaveNum == -1){
+                    System.out.println("Input didn't detect box");
+                } else {
+                    new Game(getFileInDirectoryName("Saves",selectedSaveNum));
+                    System.exit(0);
+                }
             }
         }
+
 
     }
     public void drawStartScreen(){
@@ -66,7 +89,7 @@ public class Main extends PApplet {
         textSize(70);
         background(255);
         for (int i = 0; i<savesDirectorySize; i++){
-            fileName = getFileInSavesName("Saves",i);
+            fileName = getFileInDirectoryName("Saves",i);
             fill(255);
             rect(width/2-16*fileName.length()+40,height/2+150*(i-savesDirectorySize/2)-50,32*fileName.length()-80,100);
             fill(0);
@@ -84,7 +107,7 @@ public class Main extends PApplet {
         }
         return 0;
     }
-    public String getFileInSavesName(String path, int index){
+    public String getFileInDirectoryName(String path, int index){
         File directory = new File(path);
         if (directory.isDirectory()) {
 
