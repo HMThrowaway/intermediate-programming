@@ -8,9 +8,13 @@ public class Main extends PApplet {
         LOADING,
         RUNNING
     }
+
     GameState state = GameState.START;
+
+    Game game = new Game();
     boolean drawLoad;
     int savesDirectorySize;
+
     public static void main(String[] args) {
         PApplet.main("Main");
     }//sets processing class
@@ -41,7 +45,7 @@ public class Main extends PApplet {
                 if (mouseX > width / 2 - 100 && mouseX < width / 2 + 100) {
                     if (mouseY > height / 2 - 75 && mouseY < height / 2 + 25) {//checks for play button press
                         state = GameState.RUNNING;
-                        System.exit(0);
+                        game = new Game();
                     } else if (mouseY > height / 2 + 75 && mouseY < height / 2 + 175) {//checks for load button press
                         state = GameState.LOADING;
                     }
@@ -61,7 +65,8 @@ public class Main extends PApplet {
                 if (selectedSaveNum == -1){
                     System.out.println("Input didn't detect box");
                 } else {
-                    new Game(getFileInDirectoryName("Saves",selectedSaveNum));
+                    state = GameState.RUNNING;
+                    game = new Game(getFileInDirectoryName("Saves",selectedSaveNum));
                     System.exit(0);
                 }
             }
