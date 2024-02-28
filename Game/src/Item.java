@@ -1,5 +1,5 @@
 public abstract class Item {
-    int amount = 0;
+    int amount;
     double moneyPerSecond;
     String name;
     long basePrice;

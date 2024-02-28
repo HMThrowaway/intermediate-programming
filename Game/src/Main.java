@@ -24,6 +24,8 @@ public class Main extends PApplet {
     }
     @Override
     public void setup(){
+        System.out.println(height);
+        System.out.println(width);
         textAlign(CENTER);
         savesDirectorySize = getDirectorySize("Saves");
         drawLoad = savesDirectorySize!=0;
@@ -42,7 +44,7 @@ public class Main extends PApplet {
     public void mousePressed() {
         switch (state) {
             case START -> {
-                if (mouseX > width / 2 - 100 && mouseX < width / 2 + 100) {
+                if (mouseX > width / 2 - height*10/147 && mouseX < width / 2 + 100) {
                     if (mouseY > height / 2 - 75 && mouseY < height / 2 + 25) {//checks for play button press
                         state = GameState.RUNNING;
                         game = new Game();
@@ -100,6 +102,9 @@ public class Main extends PApplet {
             fill(0);
             text(fileName.substring(0,fileName.length()-4),width/2,height/2+150*(i-savesDirectorySize/2)+25);
         }
+    }
+    public void drawGame(){
+
     }
     public int getDirectorySize(String path) {
         File directory = new File(path);

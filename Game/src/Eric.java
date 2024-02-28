@@ -1,5 +1,6 @@
 public class Eric extends Item{
-    Eric(){
+    Eric(int amt){
+        amount = amt;
         name = "Eric";
         moneyPerSecond = 275000;
         basePrice = 5100000000L;
