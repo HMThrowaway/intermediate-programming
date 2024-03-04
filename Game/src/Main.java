@@ -8,9 +8,13 @@ public class Main extends PApplet {
         LOADING,
         RUNNING
     }
+    enum SelectedShopMode {
+        SELL,
+        BUY
+    }
 
     GameState state = GameState.START;
-
+    SelectedShopMode shopMode = SelectedShopMode.BUY;
     Game game = new Game();
     boolean drawLoad;
     int savesDirectorySize;
@@ -24,19 +28,22 @@ public class Main extends PApplet {
     }
     @Override
     public void setup(){
+        frameRate = 60;
         System.out.println(height);
         System.out.println(width);
         textAlign(CENTER);
         savesDirectorySize = getDirectorySize("Saves");
         drawLoad = savesDirectorySize!=0;
+
     }
 
     @Override
     public void draw() {
-
         switch (state){
             case START -> drawStartScreen();
             case LOADING -> drawLoadScreen();
+            case RUNNING -> drawGame();
+
         }
     }
 
@@ -72,6 +79,11 @@ public class Main extends PApplet {
                     System.exit(0);
                 }
             }
+            case RUNNING -> {
+                if (mouseX > width*7/8){
+                    
+                }
+            }
         }
 
 
@@ -104,7 +116,51 @@ public class Main extends PApplet {
         }
     }
     public void drawGame(){
+        game.tick();
+        background(255);
 
+        textAlign(LEFT);
+        textSize(70);
+        if (shopMode==SelectedShopMode.BUY){
+            fill(0);
+            rect(width*7/8,0, width/16,height/11);
+            fill(255);
+            rect(width*15/16,0, width/16,height/11);
+            text("Buy",width*7/8+width/200,height/15);
+            fill(0);
+            text("Sell",width*15/16+width/200,height/15);
+        }
+        else {
+            fill(255);
+            rect(width*7/8,0, width/16,height/11);
+            fill(0);
+            rect(width*15/16,0, width/16,height/11);
+            text("Buy",width*7/8+width/200,height/15);
+            fill(255);
+            text("Sell",width*15/16+width/200,height/15);
+        }
+        for (int i = 0; i < game.items.length; i++) {
+            drawItemButton(i);
+        }
+
+        fill(0);
+        textSize(50);
+        text("Money Per Second: " + game.moneyPerSecond, 10,height-15);
+
+    }
+    public void drawItemButton(int index){
+        if (game.items[index].price > game.money){
+            fill(255,200,200);
+        } else{
+            fill(200,255,200);
+        }
+        rect(7*width/8,(1+index)*height/11,width/8,height/11);
+        fill(0);
+        textSize(50);
+        text(game.items[index].name+": "+game.items[index].amount,7*width/8+10,(13+index*8)*height/88);
+        textSize(20);
+        text("Price: "+game.items[index].price,7*width/8+width/200,(10+index*8)*height/88);
+        text("Total CPS: "+game.items[index].moneyPerSecond,7*width/8+width/200,(15+index*8)*height/88);
     }
     public int getDirectorySize(String path) {
         File directory = new File(path);

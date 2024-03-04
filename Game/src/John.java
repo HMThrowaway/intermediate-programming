@@ -4,5 +4,6 @@ public class John extends Item{
         name = "John";
         moneyPerSecond = 1800000;
         basePrice = 75000000000L;
+        price = basePrice * (int) Math.pow(1.1,amount);
     }
 }

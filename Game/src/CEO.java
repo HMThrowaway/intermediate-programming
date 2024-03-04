@@ -4,5 +4,6 @@ public class CEO extends Item{
         name = "CEO";
         moneyPerSecond = 50;
         basePrice = 12000;
+        price = basePrice * (int) Math.pow(1.1,amount);
     }
 }

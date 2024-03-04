@@ -5,8 +5,10 @@ import java.util.Scanner;
 public class Game {
     Item[] items;
     int moneyPerSecond;
+    double money;
     Game(String fileName){
         getSaveData(fileName);
+        moneyPerSecond = getMoneyPerSecond();
     }
     Game(){
         items = new Item[]{
@@ -47,5 +49,9 @@ public class Game {
             totalMoney += items[i].getTotalMoneyPerSecond();
         }
         return totalMoney;
+    }
+    void tick(){
+        moneyPerSecond = getMoneyPerSecond();
+        money+= (double) moneyPerSecond /60;
     }
 }

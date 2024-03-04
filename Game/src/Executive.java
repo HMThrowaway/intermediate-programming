@@ -4,5 +4,6 @@ public class Executive extends Item{
         name = "Executive";
         moneyPerSecond = 10;
         basePrice = 1100;
+        price = basePrice * (int) Math.pow(1.1,amount);
     }
 }

@@ -2,7 +2,8 @@ public class God extends Item{
     God(int amt){
         amount = amt;
         name = "God";
-        moneyPerSecond = 20000000;
-        basePrice = 15;
+        moneyPerSecond = 8300;
+        basePrice = 20000000;
+        price = basePrice * (int) Math.pow(1.1,amount);
     }
 }
