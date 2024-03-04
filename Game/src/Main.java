@@ -43,7 +43,6 @@ public class Main extends PApplet {
             case START -> drawStartScreen();
             case LOADING -> drawLoadScreen();
             case RUNNING -> drawGame();
-
         }
     }
 
@@ -80,8 +79,8 @@ public class Main extends PApplet {
                 }
             }
             case RUNNING -> {
-                if (mouseX > width*7/8){
-                    
+                if (mouseX > width/2-100 && width/2+100 > mouseX && mouseY > height/2-40 && mouseY < height/2+40){
+                    game.buttonClicked();
                 }
             }
         }
@@ -116,6 +115,9 @@ public class Main extends PApplet {
         }
     }
     public void drawGame(){
+        if (frameCount%frameRate == 0){
+            game.money += game.moneyPerSecond;
+        }
         game.tick();
         background(255);
 
@@ -146,6 +148,12 @@ public class Main extends PApplet {
         fill(0);
         textSize(50);
         text("Money Per Second: " + game.moneyPerSecond, 10,height-15);
+        text("Money: "+game.money,10,height-85);
+
+        fill(220,255,220);
+        rect(width/2-100,height/2-40,200,80);
+        fill(0);
+        text("Click Me!",width/2-90,height/2+20);
 
     }
     public void drawItemButton(int index){

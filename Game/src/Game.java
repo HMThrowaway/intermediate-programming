@@ -4,8 +4,9 @@ import java.util.Scanner;
 
 public class Game {
     Item[] items;
-    int moneyPerSecond;
+    double moneyPerSecond;
     double money;
+    double moneyPerClick;
     Game(String fileName){
         getSaveData(fileName);
         moneyPerSecond = getMoneyPerSecond();
@@ -50,8 +51,12 @@ public class Game {
         }
         return totalMoney;
     }
+    void buttonClicked(){
+        money+=moneyPerClick;
+    }
     void tick(){
         moneyPerSecond = getMoneyPerSecond();
-        money+= (double) moneyPerSecond /60;
+
+        moneyPerClick = moneyPerSecond/10 + 1;
     }
 }
