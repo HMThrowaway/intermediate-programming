@@ -15,7 +15,7 @@ public class Main extends PApplet {
 
     GameState state = GameState.START;
     SelectedShopMode shopMode = SelectedShopMode.BUY;
-    Game game = new Game();
+    static Game game = new Game();
     boolean drawLoad;
     int savesDirectorySize;
 
@@ -29,14 +29,11 @@ public class Main extends PApplet {
     @Override
     public void setup(){
         frameRate = 60;
-        System.out.println(height);
-        System.out.println(width);
         textAlign(CENTER);
         savesDirectorySize = getDirectorySize("Saves");
         drawLoad = savesDirectorySize!=0;
 
     }
-
     @Override
     public void draw() {
         switch (state){
@@ -45,7 +42,6 @@ public class Main extends PApplet {
             case RUNNING -> drawGame();
         }
     }
-
     @Override
     public void mousePressed() {
         switch (state) {
@@ -82,6 +78,34 @@ public class Main extends PApplet {
                 if (mouseX > width/2-100 && width/2+100 > mouseX && mouseY > height/2-40 && mouseY < height/2+40){
                     game.buttonClicked();
                 }
+                if (mouseX > width*7/8){
+                    if(mouseY < height/11){
+                        if (mouseX>width*15/16){
+                            shopMode = SelectedShopMode.SELL;
+                        }
+                        else {
+                            shopMode = SelectedShopMode.BUY;
+                        }
+                    }
+                    else {
+                        Item selectedBuilding = game.items[mouseY / (height / 11) - 1];
+                        switch (shopMode) {
+                            case BUY -> {
+                                if (game.money >= selectedBuilding.price){
+                                    game.money-=selectedBuilding.price;
+                                    selectedBuilding.buy();
+                                }
+                            }
+
+                            case SELL -> {
+                                if (selectedBuilding.amount > 0){
+                                    game.money+=selectedBuilding.price/2;
+                                    selectedBuilding.sell();
+                                }
+                            }
+                        }
+                    }
+                }
             }
         }
 
@@ -115,7 +139,7 @@ public class Main extends PApplet {
         }
     }
     public void drawGame(){
-        if (frameCount%frameRate == 0){
+        if (frameCount%60 == 0){
             game.money += game.moneyPerSecond;
         }
         game.tick();
@@ -128,9 +152,9 @@ public class Main extends PApplet {
             rect(width*7/8,0, width/16,height/11);
             fill(255);
             rect(width*15/16,0, width/16,height/11);
-            text("Buy",width*7/8+width/200,height/15);
+            text("Buy",width*7/8+width/200,height/16);
             fill(0);
-            text("Sell",width*15/16+width/200,height/15);
+            text("Sell",width*15/16+width/200,height/16);
         }
         else {
             fill(255);
@@ -147,8 +171,8 @@ public class Main extends PApplet {
 
         fill(0);
         textSize(50);
-        text("Money Per Second: " + game.moneyPerSecond, 10,height-15);
-        text("Money: "+game.money,10,height-85);
+        text("Money Per Second: " + (double)Math.round(game.moneyPerSecond*100)/100, 10,height-15);
+        text("Money: "+(double)Math.round(game.money*100)/100,10,height-85);
 
         fill(220,255,220);
         rect(width/2-100,height/2-40,200,80);
@@ -157,11 +181,24 @@ public class Main extends PApplet {
 
     }
     public void drawItemButton(int index){
-        if (game.items[index].price > game.money){
-            fill(255,200,200);
-        } else{
-            fill(200,255,200);
+        switch (shopMode) {
+            case BUY -> {
+                if (game.items[index].price > game.money){
+                    fill(255,200,200);
+                } else{
+                    fill(200,255,200);
+                }
+            }
+            case SELL -> {
+                if (game.items[index].amount == 0){
+                    fill(255,200,200);
+                }
+                else {
+                    fill(200,255,200);
+                }
+            }
         }
+
         rect(7*width/8,(1+index)*height/11,width/8,height/11);
         fill(0);
         textSize(50);

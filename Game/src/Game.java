@@ -44,8 +44,8 @@ public class Game {
             reader.close();
         } catch (FileNotFoundException e) {System.out.println("This save file couldn't be located");}
     }
-    int getMoneyPerSecond(){
-        int totalMoney = 0;
+    double getMoneyPerSecond(){
+        double totalMoney = 0;
         for (int i = 0; i < 10; i++){
             totalMoney += items[i].getTotalMoneyPerSecond();
         }
@@ -56,7 +56,6 @@ public class Game {
     }
     void tick(){
         moneyPerSecond = getMoneyPerSecond();
-
         moneyPerClick = moneyPerSecond/10 + 1;
     }
 }

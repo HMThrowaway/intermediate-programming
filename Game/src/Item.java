@@ -11,15 +11,15 @@ public abstract class Item {
     void downgrade(double multiplier){
         moneyPerSecond /= multiplier;
     }
-    void buy(int amt){
-        amount+=amt;
-        price = basePrice * (int) Math.pow(1.1,amount);
+    void buy(){
+        amount++;
+        price = (long) (basePrice * Math.pow(1.1,amount));
     }
-    void sell(int amt){
-        amount-=amt;
-        price = basePrice * (int) Math.pow(1.1,amount);
+    void sell(){
+        amount--;
+        price = (long) (basePrice * Math.pow(1.1,amount));
     }
-    int getTotalMoneyPerSecond(){
-        return (int) (moneyPerSecond*amount);
+    double getTotalMoneyPerSecond(){
+        return moneyPerSecond*amount;
     }
 }
