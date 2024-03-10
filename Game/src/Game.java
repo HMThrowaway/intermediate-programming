@@ -1,6 +1,6 @@
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.*;
 import java.util.Scanner;
+
 
 public class Game {
     Item[] items;
@@ -27,7 +27,7 @@ public class Game {
     }
     void getSaveData(String fileName){
         try {
-            File file = new File("Saves/"+fileName);
+            File file = new File(fileName);
             Scanner reader = new Scanner(file);
             items = new Item[]{
                     new Clicker(reader.nextInt()),
@@ -41,6 +41,7 @@ public class Game {
                     new Eric(reader.nextInt()),
                     new John(reader.nextInt())};
             moneyPerSecond = getMoneyPerSecond();
+            money = reader.nextInt();
             reader.close();
         } catch (FileNotFoundException e) {System.out.println("This save file couldn't be located");}
     }
@@ -58,4 +59,19 @@ public class Game {
         moneyPerSecond = getMoneyPerSecond();
         moneyPerClick = moneyPerSecond/10 + 1;
     }
+    void save(){
+        try {
+            BufferedWriter writer = new BufferedWriter(new FileWriter("Save.txt"));
+            for (Item item: items){
+                writer.write(item.amount+ "\n");
+            }
+            writer.write((int) money+"\n");
+            writer.close();
+        }
+        catch (IOException ignored){
+
+
+        }
+    }
 }
+
