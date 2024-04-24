@@ -1,6 +1,8 @@
+import processing.core.PApplet;
+
 import java.io.File;
 
-public class DuckRunner implements Game{
+public class DuckRunner extends PApplet implements Game{
     @Override
     public String getGameName() {
         return "Duck Runner";
@@ -12,8 +14,8 @@ public class DuckRunner implements Game{
     }
 
     @Override
-    public String getScore() {
-        return null;
+    public int getScore() {
+        return 0;
     }
 
     @Override

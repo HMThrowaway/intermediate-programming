@@ -2,7 +2,7 @@ import processing.core.PApplet;
 
 import java.io.File;
 
-public class Pong implements Game{
+public class Pong extends PApplet implements Game{
 
     @Override
     public String getGameName() {
@@ -11,12 +11,15 @@ public class Pong implements Game{
 
     @Override
     public void play() {
+        boolean running = true;
+        while (running){
 
+        }
     }
 
     @Override
-    public String getScore() {
-        return null;
+    public int getScore() {
+        return 0;
     }
 
     @Override

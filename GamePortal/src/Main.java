@@ -26,6 +26,13 @@ public class Main extends PApplet {
                 rect(width/2-100,height/2-50,200,100);
                 rect(width*3/4-100,height/2-50,200,100);
                 fill(0);
+                textAlign(CENTER);
+
+                textSize(35);
+                text("Pong",width/4,height/2+10);
+                text("Duck Runner",width/2,height/2+10);
+                text("Bullet Dodger",3*width/4,height/2+10);
+
             }
             case BULLETDODGER -> {
 
@@ -41,26 +48,31 @@ public class Main extends PApplet {
     public void mousePressed(){
         switch (state){
             case CHOOSE -> {
-
-            }
-            case TICTACTOE -> {
-
+                if(mouseY > height/2-50 && mouseY < height/2+50) {
+                    System.out.println("Hello");;
+                    if (mouseX > width / 4 - 100 && mouseX < width / 4 + 100){
+                        state = GameState.PONG;
+                    }
+                    else if (mouseX > width / 2 - 100 && mouseX < width / 2 + 100){
+                        state = GameState.DUCKRUNNER;
+                    }
+                    else if (mouseX > width*3 / 4 - 100 && 3*mouseX < width*3 / 4 + 100){
+                        state = GameState.BULLETDODGER;
+                    }
+                }
             }
             case PONG -> {
-
+                System.out.println("P");
             }
-            case CONNECTFOUR -> {
-
+            case DUCKRUNNER -> {
+                System.out.println("DR");
+            }
+            case BULLETDODGER -> {
+                System.out.println("BD");
             }
         }
     }
-    void runTicTacToe(){
-
-    }
-    void runPong(){
-
-    }
-    void runConnectFour(){
-
+    static void returnToChoose(){
+        state = GameState.CHOOSE;
     }
 }

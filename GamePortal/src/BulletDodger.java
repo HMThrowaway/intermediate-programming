@@ -1,6 +1,8 @@
+import processing.core.PApplet;
+
 import java.io.File;
 
-public class BulletDodger implements Game{
+public class BulletDodger extends PApplet implements Game{
 
     @Override
     public String getGameName() {
@@ -13,8 +15,8 @@ public class BulletDodger implements Game{
     }
 
     @Override
-    public String getScore() {
-        return null;
+    public int getScore() {
+        return 0;
     }
 
     @Override
