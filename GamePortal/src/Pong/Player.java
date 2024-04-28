@@ -1,10 +1,11 @@
 package Pong;
 
-public class Player {
-    int posX;
-    int posY;
-    String type;
-    Player (String t) {
-        type = t;
+public abstract class Player {
+    double speed;
+    public double pos;
+    double size;
+    Player (int movementSpeed, int playerSize) {
+        speed = movementSpeed;
+        size = playerSize;
     }
 }
