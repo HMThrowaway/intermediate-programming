@@ -8,7 +8,7 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class Pong implements Game {
-    int playerSpeed = 10;
+    int playerSpeed = 20;
     public Ball ball;
     public HumanPlayer player1;
     public RobotPlayer player2;
@@ -47,12 +47,12 @@ public class Pong implements Game {
         try {
             Scanner sc = new Scanner(f);
             int pongHighScore = sc.nextInt();
-            int drHighScore = sc.nextInt();
+            int jHighScore = sc.nextInt();
             int bdHighScore = sc.nextInt();
             if (score>pongHighScore){
                 pongHighScore = score;
                 FileWriter fw = new FileWriter(f);
-                fw.write(pongHighScore+"\n"+drHighScore+"\n"+bdHighScore);
+                fw.write(pongHighScore+"\n"+jHighScore+"\n"+bdHighScore);
                 fw.close();
             }
         } catch (IOException ignored){

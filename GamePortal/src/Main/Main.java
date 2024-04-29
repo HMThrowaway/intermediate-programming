@@ -2,21 +2,27 @@ package Main;
 
 import BulletDodger.*;
 import Pong.*;
-import DuckRunner.*;
+import Jumper.*;
 import processing.core.PApplet;
 
 public class Main extends PApplet {
     public static int mousePos;
     public static int h;
     public static int w;
+    public static boolean spacePressed = false;
+    public static boolean wPressed = false;
+    public static boolean aPressed = false;
+    public static boolean sPressed = false;
+    public static boolean dPressed = false;
+
     public enum GameState{
         CHOOSE,
         BULLETDODGER,
         PONG,
-        DUCKRUNNER
+        JUMPER
     }
     Pong pongGame;
-    DuckRunner duckRunnerGame;
+    Jumper jumperGame;
     BulletDodger bulletDodgerGame;
     public static GameState state = GameState.CHOOSE;
     public static void main (String[] args) {
@@ -44,33 +50,40 @@ public class Main extends PApplet {
 
                 textSize(35);
                 text("Pong",width/4,height/2+10);
-                text("Duck Runner",width/2,height/2+10);
+                text("Jumper",width/2,height/2+10);
                 text("Bullet Dodger",3*width/4,height/2+10);
 
             }
             case BULLETDODGER -> {
-
+                bulletDodgerGame.tick();
+                drawBulletDodger(bulletDodgerGame);
             }
             case PONG -> {
                 pongGame.tick();
                 drawPong(pongGame);
             }
-            case DUCKRUNNER -> {
-
+            case JUMPER -> {
+                jumperGame.tick();
+                drawJumper(jumperGame);
             }
         }
     }
     public void keyPressed(){
-        switch (state){
-            case PONG -> {
-
-            }
-            case DUCKRUNNER -> {
-
-            }
-            case BULLETDODGER -> {
-
-            }
+        switch (key){
+            case 'w'->wPressed = true;
+            case 'a'->aPressed = true;
+            case 's'->sPressed = true;
+            case 'd'->dPressed = true;
+            case ' '->spacePressed = true;
+        }
+    }
+    public void keyReleased(){
+        switch (key){
+            case 'w'->wPressed = false;
+            case 'a'->aPressed = false;
+            case 's'->sPressed = false;
+            case 'd'->dPressed = false;
+            case ' '->spacePressed = false;
         }
     }
     public void mousePressed(){
@@ -84,10 +97,16 @@ public class Main extends PApplet {
                         drawPong(pongGame);
                     }
                     else if (mouseX > width / 2 - 100 && mouseX < width / 2 + 100){
-                        state = GameState.DUCKRUNNER;
+                        state = GameState.JUMPER;
+                        jumperGame = new Jumper();
+                        jumperGame.play();
+                        drawJumper(jumperGame);
                     }
                     else if (mouseX > width*3 / 4 - 100 && mouseX < width*3 / 4 + 100){
                         state = GameState.BULLETDODGER;
+                        bulletDodgerGame = new BulletDodger();
+                        bulletDodgerGame.play();
+                        drawBulletDodger(bulletDodgerGame);
                     }
                 }
             }
@@ -104,11 +123,31 @@ public class Main extends PApplet {
 
                 }
             }
-            case DUCKRUNNER -> {
-                System.out.println("DR");
+            case JUMPER -> {
+                if (jumperGame.gameOver){
+                    if (mouseY>height/2&&mouseY<height/2+100){
+                        if (mouseX > width/2+50&&mouseX<width/2+250){
+                            jumperGame.play();
+                        }
+                        else if (mouseX>width/2-250&&mouseX<width/2-50){
+                            state = GameState.CHOOSE;
+                        }
+                    }
+
+                }
             }
             case BULLETDODGER -> {
-                System.out.println("BD");
+                if (bulletDodgerGame.gameOver){
+                    if (mouseY>height/2&&mouseY<height/2+100){
+                        if (mouseX > width/2+50&&mouseX<width/2+250){
+                            bulletDodgerGame.play();
+                        }
+                        else if (mouseX>width/2-250&&mouseX<width/2-50){
+                            state = GameState.CHOOSE;
+                        }
+                    }
+
+                }
             }
         }
     }
@@ -139,10 +178,58 @@ public class Main extends PApplet {
             text("Back",width/2-150,height/2+80);
         }
     }
-    void drawBulletDodger(){
+    void drawBulletDodger(BulletDodger game){
+        fill(0,200,0);
+        rect(0,0,width,height);
 
+        fill(240,180,140);
+        rect(width/2-game.playerSize/2,height/2-game.playerSize/2,game.playerSize,game.playerSize);
+        fill(120);
+        for (Bullet b:game.bullets){
+            circle(b.posX-game.player.posX,b.posY-game.player.posY,game.bulletSize);
+        }
+        if (bulletDodgerGame.gameOver){
+            textSize(80);
+            text("Score: "+bulletDodgerGame.score,width/2,height/2-100);
+            fill(255,0,0);
+            rect(width/2-250,height/2,200,100);
+            fill(0,255,0);
+            rect(width/2+50,height/2,200,100);
+            fill(0);
+            textAlign(CENTER);
+            text("Again",width/2+150,height/2+80);
+            text("Back",width/2-150,height/2+80);
+        }
     }
-    void drawDuckRunner(){
+    void drawJumper(Jumper game){
+        fill(150, 150, 250);
+        rect(0, 0, width, height - game.height);
+        fill(0, 200, 20);
+        rect(0, height - game.height, width, 50);
+        fill(80, 30, 0);
+        rect(0, height - game.height + 50, width, game.height - 50);
 
+        fill(240,180,140);
+        circle(100F, (float) (height - game.player.posY - Math.ceil(game.playerSize / 2)), game.playerSize);
+
+        fill(255, 0, 0);
+        rect(game.obstacle.posX - game.obstacleSize/2, height - game.obstacle.posY - game.obstacleSize, game.obstacleSize, game.obstacleSize);
+        fill(0);
+        if (!game.gameOver) {
+            text("Score: " + game.score, width / 2, 100);
+        }
+
+        if (jumperGame.gameOver){
+            textSize(80);
+            text("Score: "+jumperGame.score,width/2,height/2-100);
+            fill(255,0,0);
+            rect(width/2-250,height/2,200,100);
+            fill(0,255,0);
+            rect(width/2+50,height/2,200,100);
+            fill(0);
+            textAlign(CENTER);
+            text("Again",width/2+150,height/2+80);
+            text("Back",width/2-150,height/2+80);
+        }
     }
 }
